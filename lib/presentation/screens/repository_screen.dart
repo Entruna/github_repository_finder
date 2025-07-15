@@ -31,7 +31,7 @@ class RepositoryScreen extends StatelessWidget {
                 CircleAvatar(radius: 30, backgroundImage: NetworkImage(repository.owner.avatarUrl)),
                 const SizedBox(width: 16),
                 Expanded(
-                  child: InkWell(
+                  child: GestureDetector(
                     onTap: () => cubit.launchUrlExternal(repository.owner.htmlUrl),
                     child: Text(repository.owner.login, style: AppTextStyles.textTheme.titleMedium?.copyWith(color: Colors.blue)),
                   ),
@@ -40,10 +40,10 @@ class RepositoryScreen extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             Text("Repository Name", style: AppTextStyles.textTheme.labelLarge),
-            Text(repository.name, style: AppTextStyles.textTheme.bodyLarge),
+            Text(repository.name),
             const SizedBox(height: 16),
             Text("Description", style: AppTextStyles.textTheme.labelLarge),
-            Text(repository.description.isNotEmpty ? repository.description : "No description.", style: AppTextStyles.textTheme.bodyMedium),
+            Text(repository.description.isNotEmpty ? repository.description : ""),
             const SizedBox(height: 16),
             Text("Repository URL", style: AppTextStyles.textTheme.labelLarge),
             InkWell(
@@ -51,10 +51,10 @@ class RepositoryScreen extends StatelessWidget {
               child: Text(repository.htmlUrl, style: AppTextStyles.textTheme.bodyMedium?.copyWith(color: Colors.blue)),
             ),
             const SizedBox(height: 16),
-            Text("Forks: ${repository.forksCount}", style: AppTextStyles.textTheme.bodyLarge),
+            Text("Forks: ${repository.forksCount}", style: AppTextStyles.textTheme.labelLarge),
             const SizedBox(height: 16),
-            Text("Created at: $createdAtFormatted", style: AppTextStyles.textTheme.bodyMedium),
-            Text("Updated at: $updatedAtFormatted", style: AppTextStyles.textTheme.bodyMedium),
+            Text("Created at: $createdAtFormatted", style: AppTextStyles.textTheme.labelLarge),
+            Text("Updated at: $updatedAtFormatted", style: AppTextStyles.textTheme.labelLarge),
           ],
         ),
       ),

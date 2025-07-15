@@ -17,7 +17,6 @@ class _SearchFieldState extends State<SearchField> {
         hintText: "Search GitHub repositories...",
         prefixIcon: const Icon(Icons.search),
         filled: true,
-        fillColor: Theme.of(context).colorScheme.surface,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
       ),
     );
