@@ -10,6 +10,7 @@ class GitHubRepositoryImpl implements GitHubRepository {
 
   GitHubRepositoryImpl({required this.remoteDataSource, required this.localDataSource});
 
+  ///[searchRepositories] call search api, clear db, save last searched repositories
   @override
   Future<List<RepositoryDomainModel>> searchRepositories(String query) async {
     final repos = await remoteDataSource.searchRepositories(query);
@@ -20,6 +21,7 @@ class GitHubRepositoryImpl implements GitHubRepository {
     return repos.map((r) => r.toDomain()).toList();
   }
 
+  ///[getLastCachedSearch] get last searched repositories
   @override
   Future<List<RepositoryDomainModel>> getLastCachedSearch() async {
     final repos = await localDataSource.getCachedRepositories();

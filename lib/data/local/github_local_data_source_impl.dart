@@ -7,6 +7,7 @@ class GitHubLocalDataSourceImpl implements GitHubLocalDataSource {
   final _store = StoreRef<String, Map<String, dynamic>>.main();
   static const String _cacheKey = 'last_searched_repositories';
 
+  ///[cacheRepositories] save last searched repositories
   @override
   Future<void> cacheRepositories(List<RepositoryRemoteModel> repositories) async {
     final db = SembastStorage.instance.database;
@@ -15,6 +16,7 @@ class GitHubLocalDataSourceImpl implements GitHubLocalDataSource {
     await _store.record(_cacheKey).put(db, {'items': listMap});
   }
 
+  ///[getCachedRepositories] get last searched repositories
   @override
   Future<List<RepositoryRemoteModel>> getCachedRepositories() async {
     final db = SembastStorage.instance.database;
@@ -26,6 +28,7 @@ class GitHubLocalDataSourceImpl implements GitHubLocalDataSource {
     return items.map((item) => RepositoryRemoteModelMapper.fromMap(item)).toList();
   }
 
+  ///[clearCache] clear db
   @override
   Future<void> clearCache() async {
     await _store.record(_cacheKey).delete(SembastStorage.instance.database);
