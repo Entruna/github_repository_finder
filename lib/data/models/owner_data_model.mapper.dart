@@ -24,10 +24,10 @@ class OwnerDataModelMapper extends ClassMapperBase<OwnerDataModel> {
   static const Field<OwnerDataModel, String> _f$login = Field('login', _$login);
   static String _$avatarUrl(OwnerDataModel v) => v.avatarUrl;
   static const Field<OwnerDataModel, String> _f$avatarUrl =
-      Field('avatarUrl', _$avatarUrl);
+      Field('avatarUrl', _$avatarUrl, key: r'avatar_url');
   static String _$htmlUrl(OwnerDataModel v) => v.htmlUrl;
   static const Field<OwnerDataModel, String> _f$htmlUrl =
-      Field('htmlUrl', _$htmlUrl);
+      Field('htmlUrl', _$htmlUrl, key: r'html_url');
 
   @override
   final MappableFields<OwnerDataModel> fields = const {

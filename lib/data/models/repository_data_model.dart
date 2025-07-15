@@ -7,10 +7,14 @@ part 'repository_data_model.mapper.dart';
 class RepositoryDataModel with RepositoryDataModelMappable {
   final String name;
   final String? description;
+  @MappableField(key: "updated_at")
   final String updatedAt;
+  @MappableField(key: "html_url")
   final String htmlUrl;
   final OwnerDataModel? owner;
+  @MappableField(key: "forks_count")
   final int forksCount;
+  @MappableField(key: "created_at")
   final String createdAt;
 
   RepositoryDataModel({

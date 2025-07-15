@@ -29,19 +29,19 @@ class RepositoryDataModelMapper extends ClassMapperBase<RepositoryDataModel> {
       Field('description', _$description);
   static String _$updatedAt(RepositoryDataModel v) => v.updatedAt;
   static const Field<RepositoryDataModel, String> _f$updatedAt =
-      Field('updatedAt', _$updatedAt);
+      Field('updatedAt', _$updatedAt, key: r'updated_at');
   static String _$htmlUrl(RepositoryDataModel v) => v.htmlUrl;
   static const Field<RepositoryDataModel, String> _f$htmlUrl =
-      Field('htmlUrl', _$htmlUrl);
+      Field('htmlUrl', _$htmlUrl, key: r'html_url');
   static OwnerDataModel? _$owner(RepositoryDataModel v) => v.owner;
   static const Field<RepositoryDataModel, OwnerDataModel> _f$owner =
       Field('owner', _$owner);
   static int _$forksCount(RepositoryDataModel v) => v.forksCount;
   static const Field<RepositoryDataModel, int> _f$forksCount =
-      Field('forksCount', _$forksCount);
+      Field('forksCount', _$forksCount, key: r'forks_count');
   static String _$createdAt(RepositoryDataModel v) => v.createdAt;
   static const Field<RepositoryDataModel, String> _f$createdAt =
-      Field('createdAt', _$createdAt);
+      Field('createdAt', _$createdAt, key: r'created_at');
 
   @override
   final MappableFields<RepositoryDataModel> fields = const {
