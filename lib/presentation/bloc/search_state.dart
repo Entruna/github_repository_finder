@@ -11,6 +11,11 @@ class SearchLoaded extends SearchState {
   SearchLoaded(this.repos);
 }
 
+class CachedReposLoaded extends SearchState {
+  final List<RepositoryDomainModel> repos;
+  CachedReposLoaded(this.repos);
+}
+
 class SearchError extends SearchState {
   final String message;
   SearchError(this.message);

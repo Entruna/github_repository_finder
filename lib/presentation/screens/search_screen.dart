@@ -50,6 +50,11 @@ class _SearchScreenState extends State<SearchScreen> {
                     return Center(child: Text("Start typing to search repositories", style: AppTextStyles.textTheme.bodyMedium));
                   } else if (state is SearchLoading) {
                     return const GitHubLoader();
+                  } else if (state is CachedReposLoaded) {
+                    return ListView.builder(
+                      itemCount: state.repos.length,
+                      itemBuilder: (context, index) => RepositoryListTile(repository: state.repos[index]),
+                    );
                   } else if (state is SearchLoaded) {
                     if (state.repos.isEmpty) {
                       return Center(child: Text("No repositories found.", style: AppTextStyles.textTheme.bodyMedium));
