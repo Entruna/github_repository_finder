@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   // Alapszínek
-  static const primary = Color(0xFF24292E); // GitHub fejlécek, nav
-  static const secondary = Color(0xFF0366D6); // linkek
+  static const primary = Color(0xFF24292E);
+  static const secondary = Color(0xFF0366D6);
 
   static const gray100 = Color(0xFFF6F8FA);
   static const gray200 = Color(0xFFE1E4E8);
