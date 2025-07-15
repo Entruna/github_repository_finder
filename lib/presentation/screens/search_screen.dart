@@ -56,7 +56,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     }
                     return ListView.builder(
                       itemCount: state.repos.length,
-                      itemBuilder: (context, index) => RepositoryListTile(model: state.repos[index]),
+                      itemBuilder: (context, index) => RepositoryListTile(repository: state.repos[index]),
                     );
                   } else if (state is SearchError) {
                     return Center(child: Text(state.message, style: AppTextStyles.textTheme.bodyMedium?.copyWith(color: Colors.red)));
