@@ -16,8 +16,8 @@ class AppTextStyles {
   static final textThemeDark = TextTheme(
     displayLarge: GoogleFonts.inter(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.white),
     titleLarge: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.w600, color: Colors.white),
-    bodyLarge: GoogleFonts.inter(fontSize: 16, color: Colors.white70),
-    bodyMedium: GoogleFonts.inter(fontSize: 14, color: Colors.white60),
+    bodyLarge: GoogleFonts.inter(fontSize: 16, color: Colors.white),
+    bodyMedium: GoogleFonts.inter(fontSize: 14, color: Colors.white),
     labelLarge: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w600, letterSpacing: 1, color: Colors.grey[400]),
     // Kódhoz
     bodySmall: GoogleFonts.jetBrainsMono(fontSize: 13, color: Colors.grey[300]),

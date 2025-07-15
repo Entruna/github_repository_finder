@@ -6,9 +6,11 @@ import 'package:github_repository_finder/presentation/routes.dart';
 import 'package:github_repository_finder/presentation/screens/search_screen.dart';
 import 'package:github_repository_finder/style/app_theme.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   ///Dependency injection set up
-  setupInjection();
+  await setupInjection();
   runApp(const MyApp());
 }
 

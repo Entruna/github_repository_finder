@@ -10,7 +10,16 @@ class SearchCubit extends Cubit<SearchState> {
 
   final Logger logger;
 
-  SearchCubit({required this.gitHubRepository, required this.logger}) : super(SearchInitial());
+  SearchCubit({required this.gitHubRepository, required this.logger}) : super(SearchInitial()) {
+    _getLastSearch();
+  }
+
+  void _getLastSearch() async {
+    final repos = await gitHubRepository.getLastCachedSearch();
+    if (repos.isNotEmpty) {
+      emit(CachedReposLoaded(repos));
+    }
+  }
 
   Future<void> search(String query) async {
     emit(SearchLoading());

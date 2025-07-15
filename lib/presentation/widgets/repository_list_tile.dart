@@ -20,7 +20,6 @@ class RepositoryListTile extends StatelessWidget {
     return Card(
       margin: EdgeInsets.symmetric(vertical: 8),
       elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: ListTile(
         contentPadding: const EdgeInsets.all(12),
         leading: CircleAvatar(backgroundImage: NetworkImage(repository.owner.avatarUrl)),
@@ -29,12 +28,7 @@ class RepositoryListTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 4),
-            Text(
-              repository.description.isNotEmpty ? repository.description : "No description provided.",
-              style: AppTextStyles.textTheme.bodyMedium,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
+            Text(repository.description.isNotEmpty ? repository.description : "", maxLines: 2, overflow: TextOverflow.ellipsis),
             const SizedBox(height: 4),
             Text("Updated: $updatedAtFormatted", style: AppTextStyles.textTheme.labelLarge),
           ],
