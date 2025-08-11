@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:github_repository_finder/domain/models/owner_domain_model.dart';
 import 'package:github_repository_finder/domain/models/repository_domain_model.dart';
 import 'package:github_repository_finder/domain/repository/github_repository.dart';
+import 'package:github_repository_finder/domain/services/external_launcher_service.dart';
 import 'package:github_repository_finder/presentation/bloc/search_cubit.dart';
 import 'package:github_repository_finder/presentation/bloc/search_state.dart';
 import 'package:logger/logger.dart';
@@ -12,9 +13,12 @@ class MockGitHubRepository extends Mock implements GitHubRepository {}
 
 class MockLogger extends Mock implements Logger {}
 
+class MockExternalLauncherService extends Mock implements ExternalLauncherService {}
+
 void main() {
   late MockGitHubRepository mockRepository;
   late MockLogger mockLogger;
+  late MockExternalLauncherService mockExternalLauncherService;
 
   const query = 'flutter';
 
@@ -33,6 +37,7 @@ void main() {
   setUp(() {
     mockRepository = MockGitHubRepository();
     mockLogger = MockLogger();
+    mockExternalLauncherService = MockExternalLauncherService();
   });
 
   group('SearchCubit', () {
@@ -40,7 +45,7 @@ void main() {
       'emits [CachedReposLoaded] when cached repos exist at startup',
       build: () {
         when(() => mockRepository.getLastCachedSearch()).thenAnswer((_) async => fakeRepos);
-        return SearchCubit(gitHubRepository: mockRepository, logger: mockLogger);
+        return SearchCubit(gitHubRepository: mockRepository, logger: mockLogger, urlLauncherService: mockExternalLauncherService);
       },
       expect: () => [isA<CachedReposLoaded>()],
     );
@@ -52,7 +57,7 @@ void main() {
 
         when(() => mockRepository.getLastCachedSearch()).thenAnswer((_) async => []);
 
-        return SearchCubit(gitHubRepository: mockRepository, logger: mockLogger);
+        return SearchCubit(gitHubRepository: mockRepository, logger: mockLogger, urlLauncherService: mockExternalLauncherService);
       },
       act: (cubit) async => await cubit.search(query),
       expect: () => [isA<SearchLoading>(), isA<SearchLoaded>()],
@@ -66,10 +71,23 @@ void main() {
         when(() => mockLogger.e(any(), error: any(named: 'error'), stackTrace: any(named: 'stackTrace'))).thenReturn(null);
 
         when(() => mockRepository.getLastCachedSearch()).thenAnswer((_) async => []);
-        return SearchCubit(gitHubRepository: mockRepository, logger: mockLogger);
+        return SearchCubit(gitHubRepository: mockRepository, logger: mockLogger, urlLauncherService: mockExternalLauncherService);
       },
       act: (cubit) async => await cubit.search(query),
       expect: () => [isA<SearchLoading>(), isA<SearchError>()],
     );
   });
+
+  blocTest<SearchCubit, SearchState>(
+    'calls urlLauncherService.launchExternalUrl when launchUrlExternal is called',
+    build: () {
+      when(() => mockExternalLauncherService.launchExternalUrl(any())).thenAnswer((_) async {});
+      when(() => mockRepository.getLastCachedSearch()).thenAnswer((_) async => []);
+      return SearchCubit(gitHubRepository: mockRepository, logger: mockLogger, urlLauncherService: mockExternalLauncherService);
+    },
+    act: (cubit) async => await cubit.launchUrlExternal('https://example.com'),
+    verify: (_) {
+      verify(() => mockExternalLauncherService.launchExternalUrl('https://example.com')).called(1);
+    },
+  );
 }

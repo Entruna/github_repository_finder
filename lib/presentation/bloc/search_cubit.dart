@@ -1,16 +1,17 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:github_repository_finder/domain/core/failure.dart';
 import 'package:github_repository_finder/domain/repository/github_repository.dart';
+import 'package:github_repository_finder/domain/services/external_launcher_service.dart';
 import 'package:github_repository_finder/presentation/bloc/search_state.dart';
-import 'package:github_repository_finder/utils/error_handler.dart';
 import 'package:logger/logger.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class SearchCubit extends Cubit<SearchState> {
   final GitHubRepository gitHubRepository;
+  final ExternalLauncherService urlLauncherService;
 
   final Logger logger;
 
-  SearchCubit({required this.gitHubRepository, required this.logger}) : super(SearchInitial()) {
+  SearchCubit({required this.gitHubRepository, required this.logger, required this.urlLauncherService}) : super(SearchInitial()) {
     _getLastSearch();
   }
 
@@ -37,9 +38,10 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   Future<void> launchUrlExternal(String url) async {
-    final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    try {
+      await urlLauncherService.launchExternalUrl(url);
+    } catch (e, stack) {
+      logger.e("Failed to launch URL", error: e, stackTrace: stack);
     }
   }
 }

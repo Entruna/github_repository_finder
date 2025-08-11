@@ -5,7 +5,9 @@ import 'package:github_repository_finder/data/local/sembast_storage.dart';
 import 'package:github_repository_finder/data/remote/github_remote_data_source.dart';
 import 'package:github_repository_finder/data/remote/github_remote_data_source_impl.dart';
 import 'package:github_repository_finder/data/repository/github_repository_impl.dart';
+import 'package:github_repository_finder/data/services/external_launcher_service_impl.dart';
 import 'package:github_repository_finder/domain/repository/github_repository.dart';
+import 'package:github_repository_finder/domain/services/external_launcher_service.dart';
 import 'package:github_repository_finder/presentation/bloc/search_cubit.dart';
 import 'package:logger/logger.dart';
 
@@ -30,6 +32,10 @@ Future<void> setupInjection() async {
     () => GitHubRepositoryImpl(remoteDataSource: getIt<GitHubRemoteDataSource>(), localDataSource: getIt<GitHubLocalDataSource>()),
   );
 
+  getIt.registerLazySingleton<ExternalLauncherService>(() => ExternalLauncherServiceImpl());
+
   ///Presentation layer injections
-  getIt.registerLazySingleton<SearchCubit>(() => SearchCubit(gitHubRepository: getIt<GitHubRepository>(), logger: getIt<Logger>()));
+  getIt.registerLazySingleton<SearchCubit>(
+    () => SearchCubit(gitHubRepository: getIt<GitHubRepository>(), logger: getIt<Logger>(), urlLauncherService: getIt<ExternalLauncherService>()),
+  );
 }
