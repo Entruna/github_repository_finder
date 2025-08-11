@@ -3,13 +3,13 @@ import 'package:github_repository_finder/data/remote/github_remote_data_source.d
 import 'package:github_repository_finder/data/remote/models/repository_remote_model.dart';
 
 class GitHubRemoteDataSourceImpl implements GitHubRemoteDataSource {
-  final Dio dio;
+  final Dio _dio;
 
-  GitHubRemoteDataSourceImpl({required this.dio});
+  GitHubRemoteDataSourceImpl({required Dio dio}) : _dio = dio;
 
   @override
   Future<List<RepositoryRemoteModel>> searchRepositories(String query) async {
-    final response = await dio.get("https://api.github.com/search/repositories", queryParameters: {"q": query});
+    final response = await _dio.get("https://api.github.com/search/repositories", queryParameters: {"q": query});
 
     if (response.statusCode == 200) {
       final List items = response.data["items"];
