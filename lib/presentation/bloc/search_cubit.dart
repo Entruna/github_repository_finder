@@ -28,7 +28,11 @@ class SearchCubit extends Cubit<SearchState> {
       emit(SearchLoaded(repos));
     } catch (e, stack) {
       logger.e("Search failed", error: e, stackTrace: stack);
-      emit(SearchError(handleDioError(e)));
+      if (e is Failure) {
+        emit(SearchError(e.message));
+      } else {
+        emit(SearchError("Unexpected error occurred."));
+      }
     }
   }
 
