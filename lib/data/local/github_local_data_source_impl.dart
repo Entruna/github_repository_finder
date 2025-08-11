@@ -4,13 +4,16 @@ import 'package:github_repository_finder/data/remote/models/repository_remote_mo
 import 'package:sembast/sembast.dart';
 
 class GitHubLocalDataSourceImpl implements GitHubLocalDataSource {
+  final SembastStorage _storage;
   final _store = StoreRef<String, Map<String, dynamic>>.main();
   static const String _cacheKey = 'last_searched_repositories';
+
+  GitHubLocalDataSourceImpl({required SembastStorage storage}) : _storage = storage;
 
   ///[cacheRepositories] save last searched repositories
   @override
   Future<void> cacheRepositories(List<RepositoryRemoteModel> repositories) async {
-    final db = SembastStorage.instance.database;
+    final db = _storage.database;
     final listMap = repositories.map((repo) => repo.toMap()).toList();
 
     await _store.record(_cacheKey).put(db, {'items': listMap});
@@ -19,7 +22,7 @@ class GitHubLocalDataSourceImpl implements GitHubLocalDataSource {
   ///[getCachedRepositories] get last searched repositories
   @override
   Future<List<RepositoryRemoteModel>> getCachedRepositories() async {
-    final db = SembastStorage.instance.database;
+    final db = _storage.database;
     final record = await _store.record(_cacheKey).get(db);
 
     if (record == null || record['items'] == null) return [];

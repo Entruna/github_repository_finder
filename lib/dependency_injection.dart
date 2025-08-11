@@ -24,7 +24,7 @@ Future<void> setupInjection() async {
   ///Data layer injections
   getIt.registerLazySingleton<Dio>(() => Dio());
   getIt.registerLazySingleton<GitHubRemoteDataSource>(() => GitHubRemoteDataSourceImpl(dio: getIt<Dio>()));
-  getIt.registerLazySingleton<GitHubLocalDataSource>(() => GitHubLocalDataSourceImpl());
+  getIt.registerLazySingleton<GitHubLocalDataSource>(() => GitHubLocalDataSourceImpl(storage: storage));
 
   getIt.registerLazySingleton<GitHubRepository>(
     () => GitHubRepositoryImpl(remoteDataSource: getIt<GitHubRemoteDataSource>(), localDataSource: getIt<GitHubLocalDataSource>()),
