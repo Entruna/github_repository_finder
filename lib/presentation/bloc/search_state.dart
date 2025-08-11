@@ -1,6 +1,6 @@
 import 'package:github_repository_finder/domain/models/repository_domain_model.dart';
 
-abstract class SearchState {}
+sealed class SearchState {}
 
 class SearchInitial extends SearchState {}
 

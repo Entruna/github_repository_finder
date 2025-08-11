@@ -25,6 +25,12 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("GitHub Search", style: AppTextStyles.textTheme.titleLarge)),
@@ -39,31 +45,29 @@ class _SearchScreenState extends State<SearchScreen> {
             Expanded(
               child: BlocBuilder<SearchCubit, SearchState>(
                 builder: (context, state) {
-                  if (state is SearchInitial) {
-                    return Center(
-                      child: Text("Start typing to search repositories", textAlign: TextAlign.center, style: AppTextStyles.textTheme.titleLarge),
-                    );
-                  } else if (state is SearchLoading) {
-                    return const GitHubLoader();
-                  } else if (state is CachedReposLoaded) {
-                    return ListView.builder(
-                      itemCount: state.repos.length,
-                      itemBuilder: (context, index) => RepositoryListTile(repository: state.repos[index]),
-                    );
-                  } else if (state is SearchLoaded) {
-                    if (state.repos.isEmpty) {
-                      return Center(child: Text("No repositories found", textAlign: TextAlign.center, style: AppTextStyles.textTheme.titleLarge));
-                    }
-                    return ListView.builder(
-                      itemCount: state.repos.length,
-                      itemBuilder: (context, index) => RepositoryListTile(repository: state.repos[index]),
-                    );
-                  } else if (state is SearchError) {
-                    return Center(
-                      child: Text(state.message, textAlign: TextAlign.center, style: AppTextStyles.textTheme.titleLarge?.copyWith(color: Colors.red)),
-                    );
+                  switch (state) {
+                    case SearchInitial():
+                      return Center(
+                        child: Text("Start typing to search repositories", textAlign: TextAlign.center, style: AppTextStyles.textTheme.titleLarge),
+                      );
+
+                    case SearchLoading():
+                      return const GitHubLoader();
+
+                    case CachedReposLoaded(:final repos):
+                      return ListView.builder(itemCount: repos.length, itemBuilder: (context, index) => RepositoryListTile(repository: repos[index]));
+
+                    case SearchLoaded(:final repos):
+                      if (repos.isEmpty) {
+                        return Center(child: Text("No repositories found", textAlign: TextAlign.center, style: AppTextStyles.textTheme.titleLarge));
+                      }
+                      return ListView.builder(itemCount: repos.length, itemBuilder: (context, index) => RepositoryListTile(repository: repos[index]));
+
+                    case SearchError(:final message):
+                      return Center(
+                        child: Text(message, textAlign: TextAlign.center, style: AppTextStyles.textTheme.titleLarge?.copyWith(color: Colors.red)),
+                      );
                   }
-                  return const SizedBox.shrink();
                 },
               ),
             ),
